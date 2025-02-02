@@ -4,11 +4,11 @@ class Blockchain:
                              {"id": 2, "sender": "Eve", "receiver": "Charlie", "amount": 5.0, "hash": "def456"},
                              {"id": 3, "sender": "Mallory", "receiver": "Alice", "amount": 1.2, "hash": "ghi789"}]
 
-    def fetch_transactions(self):
+    def fetchTransactions(self):
         """Fetch transactions from the blockchain network."""
         return self.transactions
 
-    def validate_transaction(self, transaction):
+    def validateTransaction(self, transaction):
         """Validate a blockchain transaction."""
         requiredKeys = {"id", "sender", "receiver", "amount", "hash"}
 
