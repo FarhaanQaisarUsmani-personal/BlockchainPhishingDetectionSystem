@@ -43,10 +43,5 @@ def main():
         print(f"Entered address: {address}")
         print(f"Blacklist contents: {phishingAgent.blacklistAddresses}")
 
-        if address in phishingAgent.blacklistAddresses:
-            ui.displayWarning(f"Address {address} is blacklisted!")
-        
-        time.sleep(5)
-
 if __name__ == "__main__":
     main()

@@ -23,6 +23,7 @@ class UserInterface:
 
                 if address in self.phishingDetection.blacklistAddresses:
                     print(f"Address {address} is already in the blacklist.")
+                    time.sleep(5)
                     
                 if address.lower() == "q":
                     time.sleep(5)
