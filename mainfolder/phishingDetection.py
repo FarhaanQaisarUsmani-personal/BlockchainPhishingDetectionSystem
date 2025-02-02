@@ -24,6 +24,7 @@ class PhishingDetection:
         riskScore = self.calculateRiskScore(transaction)
 
         if riskScore > self.suspiciousThreshold:
+            print("Phishing detected: Risk score exceeds threshold.")
             return True
         
         return False
@@ -46,7 +47,7 @@ class PhishingDetection:
     def reportSuspiciousActivity(self, transaction):
         """Report suspicious activity to the alert system."""
 
-        print("Suspicious transaction detected! Reporting...")
+        print("\nSuspicious transaction detected! Reporting...")
 
         with open("suspicious_transactions.log", "a") as logFile:
             json.dump(transaction, logFile, indent=4)

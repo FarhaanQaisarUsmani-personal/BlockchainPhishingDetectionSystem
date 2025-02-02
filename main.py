@@ -9,7 +9,7 @@ def main():
     blockchain = Blockchain()
     database = Database()
     phishingAgent = PhishingDetection()
-    ui = UserInterface()
+    ui = UserInterface(phishingAgent)
 
     ui.start()
     # Analyze transactions
@@ -21,10 +21,22 @@ def main():
                 database.logPhishingTransaction(transaction)
         
         address = ui.getUserInput()
+        print("")
+        print(f"Entered address: {address}")
+        print(f"Blacklist contents: {phishingAgent.blacklistAddresses}")
         if address in phishingAgent.blacklistAddresses:
             ui.displayWarning(f"Address {address} is blacklisted!")
+        else:
+            print("Would you like to add this address in the blacklist? (Y?N)")
+            choice = input("")
+
+            if choice.upper() == "Y":
+                newAddress = input("\nEnter address to add to blacklist: ").strip()
+                ui.addToBlacklist(newAddress)
+                return newAddress
+
         
-        time.sleep(10)
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()
