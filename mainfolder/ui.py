@@ -28,12 +28,6 @@ class UserInterface:
                     time.sleep(5)
                     os.system('cls')
                     sys.exit()
-
-                if address.lower() == "a":
-                    newAddress = input("\nEnter address to add to blacklist: ").strip()
-                    self.addToBlacklist(newAddress)
-                    return newAddress
-                
                 return address
             except KeyboardInterrupt:
                 sys.exit()

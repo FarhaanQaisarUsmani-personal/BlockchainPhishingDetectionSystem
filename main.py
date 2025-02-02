@@ -23,7 +23,7 @@ def main():
 
         sender = input("Enter sender address/name: ").strip()
 
-        success, newTransaction = blockchain.addTransaction(transactionID, sender)
+        success, newTransaction = blockchain.addTransaction(sender)
 
         if success:
             print("\nTansaction added successfully!")
