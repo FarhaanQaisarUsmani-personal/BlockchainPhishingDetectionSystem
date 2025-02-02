@@ -4,9 +4,12 @@ import os
 import random
 
 class Blockchain:
-    def __init__(self):
-        self.amounts = [{"amount": 0.0005, "timestamp": 1245}]
-        self.transactions = [{"id": 1, "sender": "0x123456789abcdef", "receiver": "Bob", "amount": 0.0005, "hash": "abc123", "timestamp": 1245}]
+    def __init__(self, blacklist=None):
+        self.transactions = []
+        self.amounts = [0.005]
+        self.blacklist = blacklist if blacklist else []
+        self.loadLastTransactions()
+
 
     def fetchTransactions(self):
         """Fetch transactions from the blockchain network."""
@@ -46,33 +49,7 @@ class Blockchain:
         """Generate a random amount for a transaction."""
         return round(random.uniform(0.0001, 0.01), 6)
 
-    def addTransaction(self, transactionID, sender):
-        """Add a new transaction to the blockchain."""
-        transactionID = self.lastTransactionID + 1
-        previousSender = self.lastSender
-
-        amount = self.generateRandomAmount()
-        timestamp = self.getCurrentTimeStamp()
-        hashValue = self.generateTransactionHash(transactionID, sender, timestamp)
-
-        newTransaction = {
-            "id": transactionID,
-            "sender": sender,
-            "receiver": previousSender,
-            "amount": amount,
-            "hash": hashValue,
-            "timestamp": timestamp
-        }
-
-        if self.validateTransaction(newTransaction):
-            self.transactions.append(newTransaction)
-            self.saveLastTransaction(transactionID, sender)
-            self.lastTransactionID = transactionID
-            self.lastSender = sender
-            return True, newTransaction
-        else:
-            return False, None
-    
+        
     def loadLastTransactions(self):
         """Load the last transactions from the database."""
         if os.path.exists("suspect_transactions.log"):
@@ -96,3 +73,36 @@ class Blockchain:
             file.write(f"{transactionID}, {sender}\n")
             
             self.lastSender = sender
+
+    def addTransaction(self, sender):
+        """Add a new transaction to the blockchain."""
+        if sender in self.blacklist or self.lastSender in self.blacklist:
+            print("Transaction cancelled: Sender or Receiver is blacklisted.")
+            return False, None
+
+        transactionID = self.lastTransactionID + 1
+        previousSender = self.lastSender
+
+        amount = self.generateRandomAmount()
+        timestamp = self.getCurrentTimeStamp()
+        hashValue = self.generateTransactionHash(transactionID, sender, timestamp)
+
+        newTransaction = {
+            "id": transactionID,
+            "sender": sender,
+            "receiver": previousSender,
+            "amount": amount,
+            "hash": hashValue,
+            "timestamp": timestamp
+        }
+
+        if self.validateTransaction(newTransaction):
+            newTransaction["status"] = "Success"
+            self.transactions.append(newTransaction)
+            self.saveLastTransaction(transactionID, sender)
+            self.lastTransactionID = transactionID
+            self.lastSender = sender
+            return True, newTransaction
+        else:
+            newTransaction["status"] = "Failed"
+            return False, None
