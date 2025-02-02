@@ -28,15 +28,13 @@ def main():
         if success:
             print("\nTansaction added successfully!")
             print(f"Details: {newTransaction}")
+            if phishingAgent.analyzeTransaction(newTransaction):
+                print("Suspicious transaction detected! Reporting...")
+                phishingAgent.reportSuspiciousActivity(newTransaction)
+                database.logPhishingTransaction(newTransaction)
         else:
             print("\nTransaction failed.\nThe transaction was not added to the blockchain.")
         
-        # Analyze transactions for phishing attempts
-        transactions = blockchain.fetchTransactions()
-        for transaction in transactions:
-            if phishingAgent.analyzeTransaction(transaction) is True:
-                phishingAgent.reportSuspiciousActivity(transaction)
-                database.logPhishingTransaction(transaction)
         
         address = ui.getUserInput()
         print("")
