@@ -1,8 +1,8 @@
 import json
 import time
-from mainfolder.Blockchain import Blockchain
+from mainfolder.blockchain import Blockchain
 from mainfolder.database import Database
-from mainfolder.phishingdetection import PhishingDetection
+from mainfolder.phishingDetection import PhishingDetection
 from mainfolder.ui import UserInterface
 
 class Agent:
@@ -11,7 +11,7 @@ class Agent:
         self.blockchain = Blockchain()
         self.database = Database()
         self.phishingdetection = PhishingDetection()
-        self.ui = UserInterface()
+        self.ui = UserInterface(self.phishingdetection)
 
     def monitorTransactions(self):
         """Monitor blockchain transactions for suspicious activity."""
