@@ -1,6 +1,6 @@
 from datetime import datetime
 import hashlib
-import time
+import os
 import random
 
 class Blockchain:
@@ -48,8 +48,8 @@ class Blockchain:
 
     def addTransaction(self, transactionID, sender):
         """Add a new transaction to the blockchain."""
-        lastTransaction = self.transactions[-1]
-        previousSender = lastTransaction["sender"]
+        transactionID = self.lastTransactionID + 1
+        previousSender = self.lastSender
 
         amount = self.generateRandomAmount()
         timestamp = self.getCurrentTimeStamp()
@@ -66,6 +66,33 @@ class Blockchain:
 
         if self.validateTransaction(newTransaction):
             self.transactions.append(newTransaction)
+            self.saveLastTransaction(transactionID, sender)
+            self.lastTransactionID = transactionID
+            self.lastSender = sender
             return True, newTransaction
-        
-        return False, None
+        else:
+            return False, None
+    
+    def loadLastTransactions(self):
+        """Load the last transactions from the database."""
+        if os.path.exists("suspect_transactions.log"):
+            with open("suspect_transactions.log", "r") as file:
+                lastTransaction = file.readlines()
+                
+                if lastTransaction:
+                    self.lastTransactionID = int(lastTransaction[-1].split(",")[0].strip())
+                    self.lastSender = lastTransaction[-1].split(",")[1].strip()
+                else:
+                    self.lastTransactionID = 1
+                    self.lastSender = "0x123456789abcdef" # Default sender
+        else:
+            # If no log file exists, start a new log file
+            self.lastTransactionID = 1
+            self.lastSender = "0x123456789abcdef"
+    
+    def saveLastTransaction(self, transactionID, sender):
+        """Save a transaction to the database."""
+        with open("suspect_transactions.log", "a") as file:
+            file.write(f"{transactionID}, {sender}\n")
+            
+            self.lastSender = sender
