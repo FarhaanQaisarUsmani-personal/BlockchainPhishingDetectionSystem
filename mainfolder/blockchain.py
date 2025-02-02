@@ -1,7 +1,7 @@
 class Blockchain:
     def __init__(self):
-        self.transactions = [{"id": 1, "sender": "Alice", "receiver": "Bob", "amount": 2.5, "hash": "abc123"},
-                             {"id": 2, "sender": "Eve", "receiver": "Charlie", "amount": 5.0, "hash": "def456"},
+        self.transactions = [{"id": 1, "sender": "0x123456789abcdef", "receiver": "Bob", "amount": 0.0005, "hash": "abc123"},
+                             {"id": 2, "sender": "Eve", "receiver": "Charlie", "amount": 0.0002, "hash": "def456"},
                              {"id": 3, "sender": "Mallory", "receiver": "Alice", "amount": 1.2, "hash": "ghi789"}]
 
     def fetchTransactions(self):

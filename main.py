@@ -2,26 +2,29 @@ from mainfolder.phishingdetection import PhishingDetection
 from mainfolder.Blockchain import Blockchain
 from mainfolder.database import Database
 from mainfolder.ui import UserInterface
+import time
 
 def main():
     # Initialize components
     blockchain = Blockchain()
     database = Database()
-    phishing_agent = PhishingDetection()
+    phishingAgent = PhishingDetection()
     ui = UserInterface()
 
-    # Fetch transactions from the blockchain
-    transactions = blockchain.fetchTransactions()
-
-    # Analyze transactions
-    for transaction in transactions:
-        if phishing_agent.analyzeTransaction(transaction):
-            phishing_agent.reportSuspiciousActivity(transaction)
-            database.logPhishingTransaction(transaction)
-
-    # Start the user interface
     ui.start()
-    ui.getUserInput()
+    # Analyze transactions
+    while True:
+        transactions = blockchain.fetchTransactions()
+        for transaction in transactions:
+            if phishingAgent.analyzeTransaction(transaction):
+                phishingAgent.reportSuspiciousActivity(transaction)
+                database.logPhishingTransaction(transaction)
+        
+        address = ui.getUserInput()
+        if address in phishingAgent.blacklistAddresses:
+            ui.displayWarning(f"Address {address} is blacklisted!")
+        
+        time.sleep(10)
 
 if __name__ == "__main__":
     main()

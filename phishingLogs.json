@@ -1,0 +1,7 @@
+{
+    "id": 2,
+    "sender": "Eve",
+    "receiver": "Charlie",
+    "amount": 0.0002,
+    "hash": "def456"
+}

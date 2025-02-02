@@ -30,7 +30,6 @@ class PhishingDetection:
     
     def calculateRiskScore(self, transactions):
         """Calculate a risk score based on transaction details"""
-
         score = 0.0
 
         if transactions.get("sender") not in self.blacklistAddresses:
@@ -50,7 +49,7 @@ class PhishingDetection:
         print("Suspicious transaction detected! Reporting...")
 
         with open("suspicious_transactions.log", "a") as logFile:
-            logFile.write(json.dump(transaction, logFile))
+            json.dump(transaction, logFile, indent=4)
             logFile.write("\n")
 
         self.blacklistAddresses.add(transaction.get("sender"))

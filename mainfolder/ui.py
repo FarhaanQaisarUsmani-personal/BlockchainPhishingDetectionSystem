@@ -1,3 +1,7 @@
+import os
+import time
+import sys
+
 class UserInterface:
     def start(self):
         """Start the user interface."""
@@ -10,4 +14,13 @@ class UserInterface:
 
     def getUserInput(self):
         """Get user input for blockchain address verification."""
-        return input("Enter a blockhain address to check: ").strip()
+        while True:
+            try:
+                address = input("\nEnter address to check (q to quit): ").strip()
+                if address.lower() == "q":
+                    time.sleep(5)
+                    os.system('cls')
+                    sys.exit()
+                return address
+            except KeyboardInterrupt:
+                sys.exit()

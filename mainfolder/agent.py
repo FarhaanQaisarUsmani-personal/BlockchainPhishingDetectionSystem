@@ -1,13 +1,17 @@
 import json
 import time
-from mainfolder.blockchain import Blockchain
+from mainfolder.Blockchain import Blockchain
 from mainfolder.database import Database
+from mainfolder.phishingdetection import PhishingDetection
+from mainfolder.ui import UserInterface
 
 class Agent:
     def __init__(self):
         """Initializes agent parameters"""
         self.blockchain = Blockchain()
         self.database = Database()
+        self.phishingdetection = PhishingDetection()
+        self.ui = UserInterface()
 
     def monitorTransactions(self):
         """Monitor blockchain transactions for suspicious activity."""
@@ -15,12 +19,10 @@ class Agent:
             transactions = self.blockchain.fetchTransactions()
 
             for transaction in transactions:
-                senderAddress = transaction.get("senderAddress", "")
-
-                if senderAddress in self.database.getKnownPhishingAddresses():
-                    print(f"ALERT: Suspicious transaction detected from {senderAddress}")
+                if self.phishingdetection.analyzeTransaction(transaction):
+                    self.ui.displayWarning(f"Suspicious transaction: {transaction['hash']}")
             
-            time.sleep(10)
+            time.sleep(15)
 
     def communicateWithAgents(self, message, recipentAgent):
         """Facilitate communication between agents in a multi-agent system."""
