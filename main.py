@@ -1,5 +1,5 @@
-from mainfolder.phishingDetection import PhishingDetection
-from mainfolder.blockchain import Blockchain
+from mainfolder.phishingdetection import PhishingDetection
+from mainfolder.Blockchain import Blockchain
 from mainfolder.database import Database
 from mainfolder.ui import UserInterface
 
@@ -21,6 +21,7 @@ def main():
 
     # Start the user interface
     ui.start()
+    ui.getUserInput()
 
 if __name__ == "__main__":
     main()
