@@ -1,13 +1,12 @@
 import json
 class PhishingDetection:
     def __init__(self):
-        # Initialize detection parameters
         self.blacklistAddresses = {"0x123456789abcdef", "0xabcdef123456789"} # Examples of phishing addresses
         self.suspiciousThreshold = 0.8 #Risk score threshold for flagging transactions
 
     def analyzeTransaction(self, transaction):
         """Analyze a blockchain transaction to detect phishing attempts."""
-        # Implement phishing detection logic
+
         sender = transaction.get("sender")
         receiver = transaction.get("receiver")
         amount = transaction.get("amount")
@@ -31,6 +30,7 @@ class PhishingDetection:
     
     def calculateRiskScore(self, transactions):
         """Calculate a risk score based on transaction details"""
+
         score = 0.0
 
         if transactions.get("sender") not in self.blacklistAddresses:
@@ -46,7 +46,7 @@ class PhishingDetection:
 
     def reportSuspiciousActivity(self, transaction):
         """Report suspicious activity to the alert system."""
-        # Implement reporting logic
+
         print("Suspicious transaction detected! Reporting...")
 
         with open("suspicious_transactions.log", "a") as logFile:
