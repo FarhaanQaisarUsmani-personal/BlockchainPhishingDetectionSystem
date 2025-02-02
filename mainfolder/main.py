@@ -11,13 +11,13 @@ def main():
     ui = UserInterface()
 
     # Fetch transactions from the blockchain
-    transactions = blockchain.fetch_transactions()
+    transactions = blockchain.fetchTransactions()
 
     # Analyze transactions
     for transaction in transactions:
-        if phishing_agent.analyze_transaction(transaction):
-            phishing_agent.report_suspicious_activity(transaction)
-            database.log_phishing_transaction(transaction)
+        if phishing_agent.analyzeTransaction(transaction):
+            phishing_agent.reportSuspiciousActivity(transaction)
+            database.logPhishingTransaction(transaction)
 
     # Start the user interface
     ui.start()
