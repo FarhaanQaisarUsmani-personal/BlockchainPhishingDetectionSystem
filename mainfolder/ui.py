@@ -19,7 +19,7 @@ class UserInterface:
         """Get user input for blockchain address verification."""
         while True:
             try:
-                address = input("\nEnter address to check (q to quit, a to add): ").strip()
+                address = input("\nEnter address to check (q to quit): ").strip()
 
                 if address in self.phishingDetection.blacklistAddresses:
                     print(f"Address {address} is already in the blacklist.")

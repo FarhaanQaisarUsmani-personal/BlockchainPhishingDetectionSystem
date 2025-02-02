@@ -52,13 +52,20 @@ class Blockchain:
         
     def loadLastTransactions(self):
         """Load the last transactions from the database."""
-        if os.path.exists("suspect_transactions.log"):
-            with open("suspect_transactions.log", "r") as file:
+        if os.path.exists("suspicious_transactions.log"):
+            with open("suspicious_transactions.log", "r") as file:
                 lastTransaction = file.readlines()
                 
                 if lastTransaction:
-                    self.lastTransactionID = int(lastTransaction[-1].split(",")[0].strip())
-                    self.lastSender = lastTransaction[-1].split(",")[1].strip()
+                    try:
+                        lastLine = lastTransaction[-1].strip()
+                        transactionID_str, sender = lastLine.split(",")
+                        self.lastTransactionID = int(transactionID_str.strip())
+                        self.lastSender = sender.strip()
+                    except (ValueError, IndexError) as e:
+                        print(f"Error parsing last transactino data: {e}")
+                        self.lastTransactionID = 1
+                        self.lastSender = "0x123456789abcdef"
                 else:
                     self.lastTransactionID = 1
                     self.lastSender = "0x123456789abcdef" # Default sender
@@ -69,7 +76,7 @@ class Blockchain:
     
     def saveLastTransaction(self, transactionID, sender):
         """Save a transaction to the database."""
-        with open("suspect_transactions.log", "a") as file:
+        with open("suspicious_transactions.log", "a") as file:
             file.write(f"{transactionID}, {sender}\n")
             
             self.lastSender = sender
