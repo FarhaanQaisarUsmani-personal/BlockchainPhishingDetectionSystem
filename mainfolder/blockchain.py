@@ -81,13 +81,13 @@ class Blockchain:
             
             self.lastSender = sender
 
-    def addTransaction(self, sender):
+    def addTransaction(self, transactionID, sender):
         """Add a new transaction to the blockchain."""
-        if sender in self.blacklist or self.lastSender in self.blacklist:
+        if sender in self.blacklist:
             print("Transaction cancelled: Sender or Receiver is blacklisted.")
             return False, None
 
-        transactionID = self.lastTransactionID + 1
+        transactionID = self.lastTransactionID
         previousSender = self.lastSender
 
         amount = self.generateRandomAmount()

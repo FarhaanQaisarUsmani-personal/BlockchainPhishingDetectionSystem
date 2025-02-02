@@ -23,7 +23,7 @@ def main():
 
         sender = input("Enter sender address/name: ").strip()
 
-        success, newTransaction = blockchain.addTransaction(sender)
+        success, newTransaction = blockchain.addTransaction(transactionID, sender)
 
         if success:
             print("\nTansaction added successfully!")
@@ -34,7 +34,7 @@ def main():
         # Analyze transactions for phishing attempts
         transactions = blockchain.fetchTransactions()
         for transaction in transactions:
-            if phishingAgent.analyzeTransaction(transaction):
+            if phishingAgent.analyzeTransaction(transaction) is True:
                 phishingAgent.reportSuspiciousActivity(transaction)
                 database.logPhishingTransaction(transaction)
         
